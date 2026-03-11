@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <body class="bg-gray-900 text-white">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoadXpert Server</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+       html, body {
+    background-color: #0d0c1d !important;
+    color: #ffffff !important;
+}
+
+.window-container {
+    background-color: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(59, 130, 246, 0.5);
+}
+
+.window-content, .window-content * {
+    color: #ffffff;
+}
+
+canvas#particle-bg {
+    z-index: 0;
+}
+
+.window-container {
+    z-index: 10;
+}
+
+        body {
+    background: linear-gradient(135deg, #0d0c1d, #111827, #0d0c1d);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+.window-container {
+    background-color: rgba(15, 23, 42, 0.95); /* slightly more opaque */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* for browsers that need prefix */
+}
+
+.window-title {
+  text-shadow: 0 0 5px #000000;
+}
+.window-container {
+  transition: all 0.3s ease-in-out;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+        #background-border {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .border-svg {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: rgba(59, 130, 246, 0.2);
+            stroke-width: 2;
+        }
+
+        .window-container {
+            position: absolute;
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(59, 130, 246, 0.5);
+            box-shadow: 
+                inset 0 0 10px rgba(59, 130, 246, 0.4), 
+                0 4px 15px rgba(0, 0, 0, 0.5);
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-width: 200px;
+            min-height: 150px;
+            cursor: grab;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .window-container:hover {
+            box-shadow: 
+                inset 0 0 15px rgba(59, 130, 246, 0.6), 
+                0 6px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .window-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(1, 1, 1, 0.2);
+            border-bottom: 2px solid rgba(14, 116, 144, 0.5);
+        }
+
+        .window-title {
+            color: #93c5fd;
+            font-weight: 700;
+        }
+
+        .window-content {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow: auto;
+            position: relative;
+        }
+
+        .window-content video, .window-content .analysis-box {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.5rem;
+            object-fit: contain;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .resize-handle {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: transparent;
+            z-index: 20;
+        }
+
+        .resize-handle-br { bottom: 0; right: 0; cursor: se-resize; }
+        .resize-handle-bl { bottom: 0; left: 0; cursor: sw-resize; }
+        .resize-handle-tr { top: 0; right: 0; cursor: ne-resize; }
+        .resize-handle-tl { top: 0; left: 0; cursor: nw-resize; }
+
+        .analysis-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #10b981;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .status-pulse {
+            animation: pulse-ring 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        }
+
+        .window-border-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: rgba(59, 130, 246, 0.5);
+            stroke-width: 2;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-[#0d0c1d] text-white">
+        <!-- Particle Background -->
+        <canvas id="particle-bg" class="fixed inset-0 w-full h-full z-0"></canvas>
+            <!-- Top Logo -->
+    <div class="absolute top-0 left-0 w-full flex justify-center items-start z-1">
+        <img src="static\logo.png" alt="RoadXpert"
+        class="max-h-[140px] md:max-h-[200px] object-contain drop-shadow-[0_0_35px_rgba(59,130,246,0.9)]" />
+    </div>
+
+        <!-- Manual Analyze Button (Top-Left Corner) -->
+        <div class="absolute top-5 left-4 sm:left-6 md:left-10 z-30">
+            <button id="manualAnalyzeBtn"
+                class="px-3 py-1.5 sm:px-4 sm:py-2 md:px-5 md:py-2.5 
+                       rounded-xl bg-gradient-to-r from-blue-500 to-teal-400 
+                       text-xs sm:text-sm md:text-base 
+                       text-black font-bold tracking-wide shadow-lg 
+                       hover:from-blue-400 hover:to-teal-300 
+                       transition-all duration-300 ease-in-out 
+                       transform hover:scale-105 active:scale-95">
+                Manual Analyze
+            </button>
+        </div>    
+
+    <!-- Background Border SVG -->
+    <div id="background-border">
+        <svg class="border-svg" viewBox="0 0 1000 600" preserveAspectRatio="none">
+            <!-- Top border -->
+            <path d="M 10 10 H 200 L 215 0 H 785 L 800 10 H 990" />
+            <path d="M 215 0 H 230 M 785 0 H 770" stroke-width="5" />
+            <path d="M 240 0 H 255 M 760 0 H 745" stroke-width="5" />
+            <path d="M 265 0 H 280 M 735 0 H 720" stroke-width="5" />
+            <!-- Right border -->
+            <path d="M 990 10 V 180 M 1000 195 V 405 M 990 420 V 590" />
+            <path d="M 1000 195 L 985 180 M 1000 405 L 985 420" />
+            <!-- Bottom border -->
+            <path d="M 990 590 H 800 M 785 600 H 215 M 200 590 H 10" />
+            <path d="M 785 600 H 770 L 760 590 H 745 L 735 600 H 720 L 710 590 H 695" stroke-width="5" />
+            <!-- Left border -->
+            <path d="M 10 590 V 420 M 0 405 V 195 M 10 180 V 10" />
+            <path d="M 0 405 L 15 420 M 0 195 L 15 180" />
+        </svg>
+    </div>
+  
+    <script>
+
+// ==== CONFIGURE TIMES HERE ====
+const AUTO_TIMES = ["8:00", "14:00", "22:00"]; // 8AM, 2PM, 10PM
+
+let alreadyRunToday = {}; // prevent multiple clicks same hour
+
+async function autoClickAnalyze() {
+    try {
+        const res = await fetch("/server_time");
+        const { time } = await res.json(); // "HH:MM"
+
+        if (AUTO_TIMES.includes(time)) {
+            if (!alreadyRunToday[time]) {
+                console.log(`⏱️ Auto-run triggered at ${time}`);
+                document.getElementById("manualAnalyzeBtn").click();
+                alreadyRunToday[time] = true;
+            }
+        } else {
+            // reset daily when time no longer matches
+            AUTO_TIMES.forEach(t => alreadyRunToday[t] = false);
+        }
+    } catch (e) {
+        console.error("Auto-click error:", e);
+    }
+}
+
+// check every 30 seconds
+setInterval(autoClickAnalyze, 30000);
+
+
+document.getElementById("manualAnalyzeBtn").addEventListener("click", async () => {
+    try {
+        // Fetch a clean current frame from backend
+        const captureResp = await fetch("/capture_frame");
+        const captureData = await captureResp.json();
+        if (!captureData.image) {
+            alert("❌ Could not capture frame!");
+            return;
+        }
+
+        // Send the clean frame to analyze endpoint
+        const response = await fetch("/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: captureData.image }),
+        });
+
+        const result = await response.json();
+
+        if (result.error) {
+            document.getElementById("analysisBox1").innerText = "Error: " + result.error;
+        } else {
+            document.getElementById("analysisBox1").innerText = result.result;
+        }
+
+    } catch (err) {
+        document.getElementById("analysisBox1").innerText = "Fetch error: " + err;
+    }
+});
+
+
+const canvas = document.getElementById("particle-bg");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+// Create particles
+function createParticles() {
+    particles = [];
+    const numParticles = Math.floor((canvas.width * canvas.height) / 8000); // more particles
+    for (let i = 0; i < numParticles; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2 + 1,
+            dx: (Math.random() - 0.5) * 0.6,
+            dy: (Math.random() - 0.5) * 0.6
+        });
+    }
+}
+
+// Draw moving grid (graph paper effect)
+function drawGrid() {
+    const smallSpacing = 40; // small boxes
+    const largeSpacing = 160; // big boxes
+    const offset = (Date.now() / 100) % smallSpacing; // moving effect
+
+    ctx.lineWidth = 1;
+
+    // Small grid (thin lines)
+    ctx.strokeStyle = "rgba(59,130,246,0.08)";
+    for (let x = -smallSpacing; x < canvas.width + smallSpacing; x += smallSpacing) {
+        ctx.beginPath();
+        ctx.moveTo(x + offset, 0);
+        ctx.lineTo(x + offset, canvas.height);
+        ctx.stroke();
+    }
+    for (let y = -smallSpacing; y < canvas.height + smallSpacing; y += smallSpacing) {
+        ctx.beginPath();
+        ctx.moveTo(0, y + offset);
+        ctx.lineTo(canvas.width, y + offset);
+        ctx.stroke();
+    }
+
+    // Large grid (thicker lines)
+    const largeOffset = (Date.now() / 200) % largeSpacing;
+    ctx.strokeStyle = "rgba(59,130,246,0.2)";
+    ctx.lineWidth = 1.5;
+    for (let x = -largeSpacing; x < canvas.width + largeSpacing; x += largeSpacing) {
+        ctx.beginPath();
+        ctx.moveTo(x + largeOffset, 0);
+        ctx.lineTo(x + largeOffset, canvas.height);
+        ctx.stroke();
+    }
+    for (let y = -largeSpacing; y < canvas.height + largeSpacing; y += largeSpacing) {
+        ctx.beginPath();
+        ctx.moveTo(0, y + largeOffset);
+        ctx.lineTo(canvas.width, y + largeOffset);
+        ctx.stroke();
+    }
+}
+
+function drawScene() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 1. Grid
+    drawGrid();
+
+    // 2. Particles
+    ctx.fillStyle = "rgba(59,130,246,0.9)";
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Move particle
+        p.x += p.dx;
+        p.y += p.dy;
+
+        // Bounce off edges
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+    });
+
+    requestAnimationFrame(drawScene);
+}
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    createParticles();
+});
+
+createParticles();
+drawScene();
+        // Window Management Logic
+        let zIndexCounter = 10;
+        let activeWindow = null;
+        let isDragging = false;
+        let isResizing = false;
+        let xOffset = 0, yOffset = 0;
+        let startX, startY, startWidth, startHeight;
+
+        // Function to create and manage draggable and resizable windows
+        function createDraggableWindow(title, contentHtml, initialLeft, initialTop) {
+            const container = document.createElement('div');
+            container.className = 'window-container w-96 h-80 z-20';
+            container.style.left = initialLeft;
+            container.style.width = 'calc(44% - 2rem)';
+            container.style.height = 'calc(65% - 2rem)';
+            container.style.bottom = '50px';    // 20px above the bottom
+container.style.transform = 'translateX(-50%)'; // only center horizontally
+
+            container.innerHTML = `
+                <svg class="window-border-svg" viewBox="0 0 1000 600" preserveAspectRatio="none">
+                    <!-- Top border -->
+                    <path d="M 10 10 H 200 L 215 0 H 785 L 800 10 H 990" />
+                    <path d="M 215 0 H 230 M 785 0 H 770" stroke-width="5" />
+                    <path d="M 240 0 H 255 M 760 0 H 745" stroke-width="5" />
+                    <path d="M 265 0 H 280 M 735 0 H 720" stroke-width="5" />
+                    <!-- Right border -->
+                    <path d="M 990 10 V 180 M 1000 195 V 405 M 990 420 V 590" />
+                    <path d="M 1000 195 L 985 180 M 1000 405 L 985 420" />
+                    <!-- Bottom border -->
+                    <path d="M 990 590 H 800 M 785 600 H 215 M 200 590 H 10" />
+                    <path d="M 785 600 H 770 L 760 590 H 745 L 735 600 H 720 L 710 590 H 695" stroke-width="5" />
+                    <!-- Left border -->
+                    <path d="M 10 590 V 420 M 0 405 V 195 M 10 180 V 10" />
+                    <path d="M 0 405 L 15 420 M 0 195 L 15 180" />
+                </svg>
+                <div class="window-header">
+                    <span class="window-title">${title}</span>
+                </div>
+                <div class="window-content flex-grow relative overflow-hidden">
+                    ${contentHtml}
+                </div>
+                <div class="resize-handle resize-handle-br"></div>
+                <div class="resize-handle resize-handle-bl"></div>
+                <div class="resize-handle resize-handle-tr"></div>
+                <div class="resize-handle resize-handle-tl"></div>
+            `;
+            document.body.appendChild(container);
+
+            // Bring the clicked window to the front
+            container.addEventListener('mousedown', (e) => {
+                bringToFront(container);
+            });
+
+            // Make the window draggable from anywhere on its surface
+            container.addEventListener('mousedown', (e) => {
+                // Ignore clicks on resize handles
+                if (e.target.classList.contains('resize-handle')) {
+                    return;
+                }
+
+                isDragging = true;
+                activeWindow = container;
+                const rect = container.getBoundingClientRect();
+                // Calculate the offset from the click point to the window's top-left corner
+                xOffset = e.clientX - rect.left;
+                yOffset = e.clientY - rect.top;
+                container.style.cursor = 'grabbing';
+            });
+
+            // Make the window resizable
+            const resizeHandles = container.querySelectorAll('.resize-handle');
+            resizeHandles.forEach(handle => {
+                handle.addEventListener('mousedown', (e) => {
+                    isResizing = true;
+                    activeWindow = container;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startWidth = parseInt(document.defaultView.getComputedStyle(container).width, 10);
+                    startHeight = parseInt(document.defaultView.getComputedStyle(container).height, 10);
+                    e.preventDefault();
+                    e.stopPropagation(); // Prevents dragging from starting at the same time
+                });
+            });
+
+            return container;
+        }
+
+        // Global mouse move and up listeners for dragging and resizing
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging && activeWindow) {
+                e.preventDefault();
+                const newX = e.clientX - xOffset;
+                const newY = e.clientY - yOffset;
+                activeWindow.style.left = `${newX}px`;
+                activeWindow.style.top = `${newY}px`;
+                activeWindow.style.transform = 'none'; // Clear the centering transform
+            } else if (isResizing && activeWindow) {
+                const width = startWidth + (e.clientX - startX);
+                const height = startHeight + (e.clientY - startY);
+                activeWindow.style.width = `${Math.max(width, 200)}px`;
+                activeWindow.style.height = `${Math.max(height, 150)}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            isResizing = false;
+            if (activeWindow) {
+                activeWindow.style.cursor = 'grab';
+                activeWindow = null;
+            }
+        });
+
+        function bringToFront(windowElement) {
+            document.querySelectorAll('.window-container').forEach(win => {
+                win.style.zIndex = 10;
+            });
+            zIndexCounter++;
+            windowElement.style.zIndex = zIndexCounter;
+        }
+
+        // Camera feed access
+        function startCameraFeed(videoElement) {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then(stream => {
+                    videoElement.srcObject = stream;
+                    videoElement.play();
+                })
+                .catch(err => {
+                    console.error("Error accessing the camera: ", err);
+                    videoElement.parentElement.innerHTML = '<p class="text-red-500">Camera access denied. Please allow camera permissions to view the feed.</p>';
+                });
+        }
+        let detectionTimer = null;
+let detectionIntervalMs = 800;  // every 0.8s
+
+function startDetection(videoElement, canvasElement = null) {
+  if (!videoElement) return;
+
+  let detectionTimer = null;
+  const detectionIntervalMs = 800; // every 0.8s
+
+  if (detectionTimer) clearInterval(detectionTimer);
+  detectionTimer = setInterval(async () => {
+    if (videoElement.readyState < 2) return;
+
+    // Capture current frame
+    const canvas = document.createElement("canvas");
+    canvas.width = 640;
+    canvas.height = 480;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+    const imageData = canvas.toDataURL("image/jpeg", 0.7);
+
+    try {
+      const resp = await fetch("/detect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: imageData }),
+      });
+      const json = await resp.json();
+
+      if (!json.error && json.image_with_boxes && canvasElement) {
+        // Draw YOLO overlay on top of video
+        const overlayCtx = canvasElement.getContext("2d");
+        canvasElement.width = videoElement.videoWidth;
+        canvasElement.height = videoElement.videoHeight;
+
+        const img = new Image();
+        img.onload = () => {
+          overlayCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+          overlayCtx.drawImage(img, 0, 0, canvasElement.width, canvasElement.height);
+        };
+        img.src = json.image_with_boxes;
+      }
+
+      // Optional: update badge info if present
+      if (json.vehicles && document.getElementById("vehicleBadge")) {
+        document.getElementById("vehicleBadge").innerText =
+          `Vehicles: ${json.vehicles} | Congestion: ${json.congestion_level?.toUpperCase() || ""}`;
+      }
+      if (json.overlay_text && document.getElementById("analysisBox2")) {
+  document.getElementById("analysisBox2").innerText = json.overlay_text;
+}
+
+    } catch (err) {
+      console.error("Detection error:", err);
+    }
+  }, detectionIntervalMs);
+}
+
+        // Initialize with default windows
+        window.onload = function() {
+// === FLEXIBLE CAMERA / VIDEO DETECTION WINDOW ===
+const camWindow = createDraggableWindow(
+  'Detection Feed',
+  `
+  <div class="relative w-full h-full bg-black">
+      <img id="videoElement" src="/video_feed" width="640" height="480" style="border-radius:10px;"/>
+      <canvas id="overlayCanvas" class="absolute inset-0 w-full h-full"></canvas>
+  </div>
+  `,
+  '25%', '50%'
+);
+
+const videoEl = camWindow.querySelector('#videoFeed');
+const canvasEl = camWindow.querySelector('#overlayCanvas');
+let currentMode = "video"; // default mode
+let currentStream = null;
+
+function startVideoMode() {
+  const videoEl = document.getElementById("videoElement");
+  videoEl.src = "/video_feed"; // backend streams processed test.mp4
+}
+
+function startCameraMode() {
+  const videoEl = document.getElementById("videoElement");
+  videoEl.src = "/video_feed"; // backend streams from webcam
+}
+
+
+// === Stop webcam safely ===
+function stopCameraMode() {
+  if (currentStream) {
+    currentStream.getTracks().forEach(t => t.stop());
+    currentStream = null;
+  }
+}
+
+// === Button listeners ===
+camWindow.querySelector("#switchToVideo").addEventListener("click", startVideoMode);
+camWindow.querySelector("#switchToCamera").addEventListener("click", startCameraMode);
+
+// Start with video mode by default
+startVideoMode();
+
+}
+
+            // Create AI window on the right side
+            const aiWindow = createDraggableWindow('AI Analysis Box', `
+                <div class="analysis-box text-sm md:text-base p-4 text-center">
+                    
+                    <div class="flex flex-col items-center w-full h-full">
+    <div id="analysisBox1" class="w-full h-full bg-black text-green-400 p-4 rounded text-base md:text-lg overflow-auto"></div>
+    <div id="analysisBox2" class="text-yellow-400 font-bold mb-2"></div>
+</div>
+
+                </div>
+            `, '75%', '50%');
+    </script>
+</body>
+</html>

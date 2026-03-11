@@ -1,0 +1,14 @@
+
+developer options on, usb debugging on, wireless debugging, usb pc to mobile
+
+terminal:
+cd .\PLAYGROUND\ADB_CALL\platform-tools\
+.\adb.exe
+
+Connection:
+.\adb tcpip 5555
+.\adb connect 192.168.29.251
+             (ip address)
+
+to check whether it is connected or not:
+.\adb devices

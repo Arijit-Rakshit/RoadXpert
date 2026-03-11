@@ -1,0 +1,271 @@
+Location Manager State:
+  User Info:
+    running users: u[0, 150]
+    current users: u[0, 150]
+  Location Settings:
+    Location Setting: 
+      [u0] true
+      [u150] true
+    Location Allow/Deny Packages:
+    Throttling Allow Packages:
+      com.sec.android.app.safetyassurance
+      com.google.android.gms
+      com.tmobile.echolocate
+    Throttling Allow Packages by nsflp:
+      com.kt.serviceagent
+      com.sec.location.nsflp2
+      com.android.angryGps
+      com.lguplus.lgugpsnwps
+      com.skt.hps20client
+      com.sec.timezone
+      jp.co.nttdocomo.lcsapp
+    Emergency Bypass Allow Packages:
+      com.sec.android.app.safetyassurance[*]
+      com.sec.imsservice[*]
+      com.google.android.dialer[*]
+      com.google.android.gms[.thunderbird]
+  Location Controller Extra Package: com.google.android.gms.location.history [disabled]
+  Location Providers:
+    passive provider:
+      service: registered
+      listeners:
+        5023/com.samsung.android.networkdiagnostic/4FDF9C6D {bg} Request[PASSIVE, minUpdateInterval=+5m0s0ms, minUpdateDistance=20.0, WorkSource{5023 com.samsung.android.networkdiagnostic}]
+        15010215/com.google.android.gms[network_location_provider]/236BBDC3 {bg} Request[PASSIVE, minUpdateInterval=0, hiddenFromAppOps, WorkSource{15010215 com.google.android.gms}]
+        1000/android[SensorNotificationService]/A28DAFC2 Request[PASSIVE, minUpdateInterval=+30m0s0ms, minUpdateDistance=100000.0, WorkSource{1000 android}]
+        1000/android[SLocationService]/2FE61244 Request[PASSIVE, minUpdateInterval=0, WorkSource{1000 android}]
+      user 0:
+        last location=Location[network 23.338914,86.364821 hAcc=25.141 et=+37d7h49m32s432ms alt=212.5 vAcc=1.5903505 {Bundle[{verticalAccuracy=1.5903505}]}]
+        enabled=true
+      user 150:
+        last location=Location[network 23.338914,86.364821 hAcc=25.141 et=+37d7h49m32s432ms alt=212.5 vAcc=1.5903505 {Bundle[{verticalAccuracy=1.5903505}]}]
+        enabled=true
+      allowed=true
+      identity=1000/android[LocationService]
+      properties=ProviderProperties[powerUsage=Low, accuracy=Fine]
+    network provider:
+      service: ProviderRequest[OFF]
+      listeners:
+        1000/android[GnssService]/F89A7A35 Request[PASSIVE, minUpdateInterval=0, hiddenFromAppOps, WorkSource{1000 android}]
+      user 0:
+        last location=Location[network 23.338914,86.364821 hAcc=25.141 et=+37d7h49m32s432ms alt=212.5 vAcc=1.5903505 {Bundle[{verticalAccuracy=1.5903505}]}]
+        enabled=true
+      user 150:
+        last location=Location[network 23.338914,86.364821 hAcc=25.141 et=+37d7h49m32s432ms alt=212.5 vAcc=1.5903505 {Bundle[{verticalAccuracy=1.5903505}]}]
+        enabled=true
+      allowed=true
+      identity=10215/com.google.android.gms[network_location_provider]
+      extra attribution tags={awareness_provider, activity_recognition_provider, network_location_provider, gnss_location_provider, network_location_calibration, current_semantic_location, fused_location_provider, wearable_flp_shim, geofencer_provider}
+      properties=ProviderProperties[powerUsage=Medium, accuracy=Fine, requires=network, supports=[altitude]]
+      stationary throttled=false (not idle)
+      target service=10215/com.google.android.gms/com.google.android.location.network.NetworkLocationService@2
+      connected=true
+    fused provider:
+      service: ProviderRequest[OFF]
+      user 0:
+        last location=Location[fused 23.338914,86.364821 hAcc=25.141 et=+37d7h49m32s432ms alt=212.5 vAcc=1.5903505]
+        enabled=true
+      user 150:
+        last location=Location[fused 23.338914,86.364821 hAcc=25.141 et=+37d7h49m32s432ms alt=212.5 vAcc=1.5903505]
+        enabled=true
+      allowed=true
+      identity=10215/com.google.android.gms[fused_location_provider]
+      extra attribution tags={awareness_provider, activity_recognition_provider, network_location_provider, gnss_location_provider, network_location_calibration, current_semantic_location, fused_location_provider, wearable_flp_shim, geofencer_provider}
+      properties=ProviderProperties[powerUsage=Low, accuracy=Fine, supports=[bearing,speed,altitude]]
+      stationary throttled=false (not idle)
+      target service=10215/com.google.android.gms/com.google.android.location.fused.FusedLocationService@1
+      connected=true
+    gps provider:
+      service: ProviderRequest[OFF]
+      user 0:
+        last location=null
+        enabled=true
+      user 150:
+        last location=null
+        enabled=true
+      allowed=true
+      identity=1000/android[GnssService]
+      properties=ProviderProperties[powerUsage=High, accuracy=Fine, requires=satellite, supports=[bearing,speed,altitude]]
+      stationary throttled=false (not idle)
+      mStarted=false   (changed +6m53s206ms ago)
+      mBatchingEnabled=false
+      mBatchingStarted=false
+      mBatchSize=0
+      mFixInterval=0
+      GNSS_KPI_START
+        KPI logging start time: +36d21h14m2s909ms
+        KPI logging end time: +37d7h51m19s546ms
+        Number of location reports: 0
+        Number of TTFF reports: 0
+        Number of position accuracy reports: 0
+        Number of CN0 reports: 0
+        Total number of sv status messages processed: 64
+        Total number of L5 sv status messages processed: 0
+        Total number of sv status messages processed, where sv is used in fix: 0
+        Total number of L5 sv status messages processed, where sv is used in fix: 0
+        Number of L5 CN0 reports: 0
+        Used-in-fix constellation types: 
+      GNSS_KPI_END
+      Power Metrics
+        Time on battery (min): 62.509566666666665
+        Amount of time (while on battery) Top 4 Avg CN0 > 20.0 dB-Hz (min): 0.0
+        Amount of time (while on battery) Top 4 Avg CN0 <= 20.0 dB-Hz (min): 0.07438333333333333
+        Energy consumed while on battery (mAh): 0.0
+      Hardware Version: 5
+      
+      SEC Dump for updateRequirements
+      [
+      [2024-08-15 03:59:18]: restartLocationRequest, 
+      [2024-08-15 14:29:35]: ProviderRequest[@0, HIGH_ACCURACY, WorkSource{10215 com.google.android.gms}] WorkSource{10215 com.google.android.gms}, 
+      [2024-08-15 14:29:42]: ProviderRequest[OFF] WorkSource{}]
+      
+      SEC Dump for Deleting aiding data
+      None
+      
+      SEC Dump for sim state history
+      []
+      
+      ============ GPS Carrier Feature State ============
+      [
+       Sim slot ID  :  0
+       AGPS Setting  :  
+       SUPL Address  :  
+       SUPL version  :  -1
+       AGPS Mode  :  63
+       AGNSS Protocol  :  -1
+       LPPeCP  :  -1
+       LPPeUP  :  -1
+       ES Extension Sec  :  -1
+       Exception mask for Agnss  :  -1
+      , 
+       Sim slot ID  :  1
+       AGPS Setting  :  
+       SUPL Address  :  
+       SUPL version  :  -1
+       AGPS Mode  :  63
+       AGNSS Protocol  :  -1
+       LPPeCP  :  -1
+       LPPeUP  :  -1
+       ES Extension Sec  :  -1
+       Exception mask for Agnss  :  -1
+      ]
+      
+      ============ GPS SECGPS CONFIGURATION State ============
+       There is no secgps.conf file !!!!!
+      
+      
+  Historical Aggregate Location Provider Data:
+    passive:
+      10215/com.google.android.gms[fused_location_provider]: min/max interval = passive/passive, total/active/foreground duration = +5s873ms/+5s868ms/+5s868ms, locations = 2
+      1000/android[SensorNotificationService]: min/max interval = passive/passive, total/active/foreground duration = +10h37m6s286ms/+7m0s627ms/+10h37m6s285ms, locations = 1
+      15010215/com.google.android.gms[network_location_provider]: min/max interval = passive/passive, total/active/foreground duration = +6m58s944ms/+6m58s931ms/0, locations = 6
+      1000/android[SLocationService]: min/max interval = passive/passive, total/active/foreground duration = +10h37m15s573ms/+7m0s478ms/+10h37m15s562ms, locations = 6
+      5023/com.samsung.android.networkdiagnostic: min/max interval = passive/passive, total/active/foreground duration = +6m52s933ms/+6m52s920ms/0, locations = 1
+    gps:
+      10215/com.google.android.gms[fused_location_provider]: min/max interval = 0s/0s, total/active/foreground duration = +6s368ms/+6s352ms/+6s366ms, locations = 0
+      1000/android[DeviceIdleController]: min/max interval = 1s/1s, total/active/foreground duration = +31s293ms/0/+31s293ms, locations = 0
+    fused:
+      1000/android[DeviceIdleController]: min/max interval = 0s/0s, total/active/foreground duration = +31s302ms/0/+31s299ms, locations = 0
+    network:
+      1000/android[SLocationService]: min/max interval = 0s/0s, total/active/foreground duration = +7s767ms/+7s759ms/+7s764ms, locations = 2
+      10208/com.google.android.as: min/max interval = 21600s/21600s, total/active/foreground duration = +1h11m40s799ms/0/+1h11m40s714ms, locations = 0
+      1000/android[GnssService]: min/max interval = passive/passive, total/active/foreground duration = +10h37m15s967ms/+7m0s425ms/+10h37m15s966ms, locations = 3
+      15010208/com.google.android.as: min/max interval = 21600s/21600s, total/active/foreground duration = +1h11m7s715ms/0/+1h11m7s649ms, locations = 0
+  GNSS Manager:
+    Capabilities: [SCHEDULING MSB MSA GEOFENCING LOW_POWER_MODE SATELLITE_BLOCKLIST ACCUMULATED_DELTA_RANGE(unknown)]
+    GNSS Hardware Model Name: qcom,SM_BITRA_H,MPSS.HI.2.5.1-00739.1-BITRA_GEN_PACK-1.3086.277,
+    Status Provider:
+      service: registered
+      listeners:
+        15010215/com.google.android.gms[network_location_provider]/74048DA9 {bg}
+        10215/com.google.android.gms[fused_location_provider]/BF6AF8CC
+        10215/com.google.android.gms[network_location_provider]/9CECBF73
+        15010215/com.google.android.gms[fused_location_provider]/5A8FBB5E {bg}
+    Measurements Provider:
+      service: unregistered
+    Antenna Info Provider:
+      Antenna Infos: null
+      service: unregistered
+  Geofence Manager:
+    service: unregistered
+  Event Log:
+    08-15 03:59:19.447: network provider +registration 1000/android[GnssService]/F89A7A35 -> Request[PASSIVE, minUpdateInterval=0, hiddenFromAppOps, WorkSource{1000 android}]
+    08-15 03:59:19.448: network provider client 1000/android[GnssService]/F89A7A35 -> foreground
+    08-15 03:59:19.840: passive provider +registration 1000/android[SLocationService]/2FE61244 -> Request[PASSIVE, minUpdateInterval=0, WorkSource{1000 android}]
+    08-15 03:59:19.851: passive provider client 1000/android[SLocationService]/2FE61244 -> foreground
+    08-15 03:59:21.551: [u0] visible
+    08-15 03:59:29.127: passive provider +registration 1000/android[SensorNotificationService]/A28DAFC2 -> Request[PASSIVE, minUpdateInterval=+30m0s0ms, minUpdateDistance=100000.0, WorkSource{1000 android}]
+    08-15 03:59:29.128: passive provider client 1000/android[SensorNotificationService]/A28DAFC2 -> foreground
+    08-15 03:59:32.709: [u150] visible
+    08-15 03:59:33.461: network provider +registration 10208/com.google.android.as/0A0F7386 -> Request[@+6h0m0s0ms BALANCED, minUpdateDistance=100000.0, WorkSource{10208 com.google.android.as}]
+    08-15 03:59:33.483: network provider client 10208/com.google.android.as/0A0F7386 -> foreground
+    08-15 04:00:06.555: network provider +registration 15010208/com.google.android.as/4A887965 -> Request[@+6h0m0s0ms BALANCED, minUpdateDistance=100000.0, WorkSource{15010208 com.google.android.as}]
+    08-15 04:00:06.556: network provider client 15010208/com.google.android.as/4A887965 -> foreground
+    08-15 05:11:14.195: network provider client 10208/com.google.android.as/0A0F7386 -> background
+    08-15 05:11:14.205: network provider client 15010208/com.google.android.as/4A887965 -> background
+    08-15 05:11:14.260: network provider -registration 10208/com.google.android.as/0A0F7386
+    08-15 05:11:14.270: network provider -registration 15010208/com.google.android.as/4A887965
+    08-15 09:17:12.065: fused provider +registration 1000/android[DeviceIdleController]/5FAFEC0C -> Request[@0 HIGH_ACCURACY, maxUpdates=1, WorkSource{1000 android}]
+    08-15 09:17:12.068: fused provider client 1000/android[DeviceIdleController]/5FAFEC0C -> foreground
+    08-15 09:17:12.076: gps provider +registration 1000/android[DeviceIdleController]/FED2F165 -> Request[@+1s0ms HIGH_ACCURACY, minUpdateDistance=5.0, WorkSource{1000 android}]
+    08-15 09:17:12.076: gps provider client 1000/android[DeviceIdleController]/FED2F165 -> foreground
+    08-15 09:17:43.367: fused provider -registration 1000/android[DeviceIdleController]/5FAFEC0C
+    08-15 09:17:43.369: gps provider -registration 1000/android[DeviceIdleController]/FED2F165
+    08-15 14:29:34.716: location [u0] enabled
+    08-15 14:29:34.776: passive provider [u0] enabled
+    08-15 14:29:34.954: passive provider request = ProviderRequest[@0]
+    08-15 14:29:34.960: network provider [u0] enabled
+    08-15 14:29:34.990: fused provider [u0] enabled
+    08-15 14:29:35.010: gps provider [u0] enabled
+    08-15 14:29:35.030: location [u150] enabled
+    08-15 14:29:35.081: passive provider [u150] enabled
+    08-15 14:29:35.081: network provider [u150] enabled
+    08-15 14:29:35.094: fused provider [u150] enabled
+    08-15 14:29:35.095: gps provider [u150] enabled
+    08-15 14:29:35.824: gps provider +registration 10215/com.google.android.gms[fused_location_provider]/16226CE2 -> Request[@0 HIGH_ACCURACY, hiddenFromAppOps, WorkSource{10215 com.google.android.gms}]
+    08-15 14:29:35.826: gps provider client 10215/com.google.android.gms[fused_location_provider]/16226CE2 -> foreground
+    08-15 14:29:35.841: gps provider request = ProviderRequest[@0, HIGH_ACCURACY, WorkSource{10215 com.google.android.gms}]
+    08-15 14:29:35.860: network provider +registration 1000/android[SLocationService]/5068436F -> Request[@0 BALANCED, WorkSource{1000 android}]
+    08-15 14:29:35.861: network provider client 1000/android[SLocationService]/5068436F -> foreground
+    08-15 14:29:35.863: network provider request = ProviderRequest[@0, WorkSource{1000 android}]
+    08-15 14:29:36.331: passive provider +registration 10215/com.google.android.gms[fused_location_provider]/094DD018 -> Request[PASSIVE, minUpdateInterval=0, hiddenFromAppOps, WorkSource{10215 com.google.android.gms}]
+    08-15 14:29:36.336: passive provider client 10215/com.google.android.gms[fused_location_provider]/094DD018 -> foreground
+    08-15 14:29:36.469: passive provider +registration 15010215/com.google.android.gms[network_location_provider]/236BBDC3 -> Request[PASSIVE, minUpdateInterval=0, hiddenFromAppOps, WorkSource{15010215 com.google.android.gms}]
+    08-15 14:29:41.853: network provider received location[1]
+    08-15 14:29:41.867: network provider delivered location[1] to 1000/android[SLocationService]/5068436F
+    08-15 14:29:41.867: passive provider delivered location[1] to 15010215/com.google.android.gms[network_location_provider]/236BBDC3
+    08-15 14:29:41.868: passive provider delivered location[1] to 10215/com.google.android.gms[fused_location_provider]/094DD018
+    08-15 14:29:41.890: network provider delivered location[1] to 1000/android[GnssService]/F89A7A35
+    08-15 14:29:41.891: passive provider delivered location[1] to 1000/android[SensorNotificationService]/A28DAFC2
+    08-15 14:29:41.891: passive provider delivered location[1] to 1000/android[SLocationService]/2FE61244
+    08-15 14:29:41.918: network provider -registration 1000/android[SLocationService]/5068436F
+    08-15 14:29:41.918: network provider request = ProviderRequest[OFF]
+    08-15 14:29:42.107: fused provider received location[1]
+    08-15 14:29:42.108: passive provider delivered location[1] to 15010215/com.google.android.gms[network_location_provider]/236BBDC3
+    08-15 14:29:42.109: passive provider delivered location[1] to 10215/com.google.android.gms[fused_location_provider]/094DD018
+    08-15 14:29:42.110: passive provider delivered location[1] to 1000/android[SLocationService]/2FE61244
+    08-15 14:29:42.192: gps provider -registration 10215/com.google.android.gms[fused_location_provider]/16226CE2
+    08-15 14:29:42.192: gps provider request = ProviderRequest[OFF]
+    08-15 14:29:42.204: passive provider -registration 10215/com.google.android.gms[fused_location_provider]/094DD018
+    08-15 14:29:42.480: passive provider +registration 5023/com.samsung.android.networkdiagnostic/4FDF9C6D -> Request[PASSIVE, minUpdateInterval=+5m0s0ms, minUpdateDistance=20.0, WorkSource{5023 com.samsung.android.networkdiagnostic}]
+    08-15 14:29:42.496: passive provider delivered location[1] to 5023/com.samsung.android.networkdiagnostic/4FDF9C6D
+    08-15 14:29:45.303: network provider received location[1]
+    08-15 14:29:45.303: passive provider delivered location[1] to 15010215/com.google.android.gms[network_location_provider]/236BBDC3
+    08-15 14:29:45.307: network provider delivered location[1] to 1000/android[GnssService]/F89A7A35
+    08-15 14:29:45.307: passive provider delivered location[1] to 1000/android[SLocationService]/2FE61244
+    08-15 14:29:45.392: fused provider received location[1]
+    08-15 14:29:45.393: passive provider delivered location[1] to 15010215/com.google.android.gms[network_location_provider]/236BBDC3
+    08-15 14:29:45.393: passive provider delivered location[1] to 1000/android[SLocationService]/2FE61244
+    08-15 14:34:47.971: network provider +registration 1000/android[SLocationService]/5068436F -> Request[@0 BALANCED, WorkSource{1000 android}]
+    08-15 14:34:47.973: network provider client 1000/android[SLocationService]/5068436F -> foreground
+    08-15 14:34:47.983: network provider request = ProviderRequest[@0, WorkSource{1000 android}]
+    08-15 14:34:49.669: network provider received location[1]
+    08-15 14:34:49.673: passive provider delivered location[1] to 15010215/com.google.android.gms[network_location_provider]/236BBDC3
+    08-15 14:34:49.675: network provider delivered location[1] to 1000/android[GnssService]/F89A7A35
+    08-15 14:34:49.676: network provider delivered location[1] to 1000/android[SLocationService]/5068436F
+    08-15 14:34:49.676: passive provider delivered location[1] to 1000/android[SLocationService]/2FE61244
+    08-15 14:34:49.680: network provider -registration 1000/android[SLocationService]/5068436F
+    08-15 14:34:49.680: network provider request = ProviderRequest[OFF]
+    08-15 14:34:49.710: fused provider received location[1]
+    08-15 14:34:49.711: passive provider delivered location[1] to 15010215/com.google.android.gms[network_location_provider]/236BBDC3
+    08-15 14:34:49.711: passive provider delivered location[1] to 1000/android[SLocationService]/2FE61244
+  Mock Location Record:
