@@ -30,11 +30,13 @@ RoadXpert operates on a continuous **Observe → Reason → Act** loop using thr
 
 1. **Clone the repository and install dependencies:**
    ```bash
-   git clone <your-repo-link>
+   git clone https://github.com/Arijit-Rakshit/RoadXpert.git
    cd RoadXpert
    pip install -r requirements.txt
-'''
-  (Ensure opencv-python, flask, ultralytics, requests, python-dotenv, and schedule are in your requirements.txt)
+   ```
+```
+(Ensure opencv-python, flask, ultralytics, requests, python-dotenv, and schedule are in your requirements.txt)
+  ```
 2. **Environment Variables:**
 In .env file in the root directory and add your credentials:
  ```bash
@@ -69,7 +71,9 @@ sender =
 receiver = Update the email addresses in the send_emergency_email function (Line 383).
 ```
 3. **Hardware Hookup:**
+```
 (line 928) change this
+```
 ```bash
 camera_source = 0
 ```
