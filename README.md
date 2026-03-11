@@ -43,51 +43,63 @@ GMAIL_APP_PASSWORD=your_16_digit_gmail_app_password_here
 PORT=5000
  ```
 **HuggingFace API Setup**
+```
 Create an account on HuggingFace.
 Go to Settings → Access Tokens.
 Generate a new token.
 Add it to the .env file.
-
+```
 **Gmail Setup for Email Alerts**
 RoadXpert AI sends automated reports using Gmail SMTP.
 Steps:
+```
 Enable 2-Step Verification in your Google account.
 Go to Google Account → Security → App Passwords.
 Create a new App Password for Mail.
 Add the generated password to .env.
-
+```
 Note: Do not use your normal Gmail password.
 
 3. **Configure the Script:**
 Open main.py and update the following variables to match your setup:
-
-adb_path: Set this to your local ADB executable path (e.g., "Roadxpert\\ADB_CALL" for Windows).
-number: Set the emergency contact number (Line 92).
-sender & receiver: Update the email addresses in the send_emergency_email function (Line 383).
-
+```bash
+adb_path = Set this to your local ADB executable path (e.g., "Roadxpert\\ADB_CALL" for Windows).
+number = Set the emergency contact number (Line 92).
+sender =
+receiver = Update the email addresses in the send_emergency_email function (Line 383).
+```
 3. **Hardware Hookup:**
+(line 928) change this
+```bash
+camera_source = 0
+```
+```
 Connect your webcam (Source 0 is default).
                     or
 if you have a video file, Use path for video files (files should be in the same directory as the script)
 
 If using the auto-call feature, connect your Android phone via USB and ensure USB Debugging is enabled in Developer Options. (optional)
-
+```
 🚀 How to Run
 Start the Agentic Server:
 ```Bash
 python main.py
 ```
 Access the Feed:
+```
 Open your browser and navigate to ```bash http://localhost:5000/ ```
-
+```
 Autonomous Operations:
+```
 The system will automatically log traffic data to vehicle_log.json.
 
 Click on "Manual Analyze" button on the website to see AI results, 
                           or
 (Optional) Uncomment the analyzer_thread at the bottom of main.py to enable the continuous VLM reasoning loop.
 
-At 22:00 daily, the system autonomously generates and emails a comprehensive summary report.                            
+At 22:00 daily, the system autonomously generates and emails a comprehensive summary report.
+
+```
 ## 🔄 System Workflow: Multi-Agent Architecture
 
 The system operates on a decentralized, autonomous agent pipeline. Each specialized agent is responsible for a specific cognitive task, continuously processing and handing off data through the Observe-Reason-Act loop.
@@ -108,6 +120,24 @@ graph TD
     class A source;
     class H final;
 ```
-
-
+## Project Structure
+```text
+RoadXpert-AI/
+├── main.py                # Main Flask server and application entry point
+├── traffic.py             # Traffic analysis and congestion detection logic
+├── yolo_vehicle.py        # YOLO-based vehicle detection module
+├── yolo11n.pt         # YOLO pretrained model for vehicle detection
+├── vehicle_log.json   # Vehicle detection logs
+├──analysis_log.json  # Structured AI analysis results
+├──analysis_log.txt   # Human-readable analysis reports
+├── cert.pem           # SSL certificate for secure HTTPS server
+├── key.pem            # SSL private key
+├── ADB_CALL/          # External API or automation calls
+├── static/            # CSS, JS, and frontend assets
+├── templates/         # HTML templates for the Flask dashboard
+│    └── index.html
+├── .env               # Environment variables (API keys, email credentials)
+├── requirements.txt       # Python dependencies
+└── README.md              # Project documentation
+```
     
